@@ -2,21 +2,20 @@ const express = require('express');
 const app = express();
 const route = require('./route');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
-// app.use(function(req, res, next){
-//     req.on('data', function(data){
-//         req.xxxx = data.toString();
-//         next();
-//     })
-// })
+app.use(cookieParser());
+app.use(session({
+    secret: 'shusheng',
+    // name: 'ss'
+    resave: false,
+    saveUninitialized: false
+}))
 
 app.use(bodyParser.urlencoded({extended: false}));
 // 注册路由中间件
 app.use(route);
-
-
-
-
 
 // 注册静态资源中间件 管理静态资源
 app.use('/static', express.static('./static'));
