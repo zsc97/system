@@ -1,21 +1,17 @@
 const express = require('express');
-
 const app = express();
 
+// 参数1：给模板引擎起的名字（和模板文件的后缀名有关）
+app.engine('html', require('express-art-template'));
+// 配置使用的模板引擎
+app.set('view engine', 'html');
+// 配置模板文件的存放路径
+app.set('views', __dirname + '/views');
+
+
 app.get('/', function(req, res){
-    // res.send 支持更多数据类型的响应 它会自动的将非字符类型转成字符类型
-    // let obj = {name: '二狗子', age: 18, hobby: ['游泳', '游戏']}
-    // let obj = ['二狗子', '如花'];
-    // res.send(obj);
-
-    // res.sendFile(__dirname + '/1.html');
-    // res.sendFile('/1.html', {root: __dirname});
+    res.render('1', {name: '二狗子'});
 });
-
-
-app.get('/xxx', function(req, res){
-    res.send('帅的被人嫉妒');
-})
 
 
 app.listen('2000', '127.0.0.1', function(){
