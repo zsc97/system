@@ -1,8 +1,22 @@
 const express = require('express');
 const app = express();
 const route = require('./route');
+const bodyParser = require('body-parser');
+
+// app.use(function(req, res, next){
+//     req.on('data', function(data){
+//         req.xxxx = data.toString();
+//         next();
+//     })
+// })
+
+app.use(bodyParser.urlencoded({extended: false}));
 // 注册路由中间件
 app.use(route);
+
+
+
+
 
 // 注册静态资源中间件 管理静态资源
 app.use('/static', express.static('./static'));
@@ -14,16 +28,6 @@ app.engine('html', require('express-art-template'));
 app.set('view engine', 'html');
 // 配置模板文件的存放路径
 app.set('views', __dirname + '/views');
-
-
-// app.get('/', function(req, res){
-//     res.render('1', {name: '二狗子'});
-// });
-
-// app.post('/xxx', function(req, res){
-
-// });
-
 
 app.listen('2000', '127.0.0.1', function(){
     console.log('服务已启动');

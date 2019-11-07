@@ -3,16 +3,18 @@ const router = express.Router()
 
 
 router.get('/xxx', function(req, res){
-    res.sendFile('1.html', {root: __dirname});
-})
+    // res.sendFile('1.html', {root: __dirname});
+    res.send('');
+});
 
-// router.get('/images/1.jpeg', function(req, res){
-//     res.sendFile('images/1.jpeg', {root: __dirname});
-// })
+router.get('/adduser', function(req, res){
+    // 如果是GET请求，使用的事querystring方法传递参数，只需要用req.query获取就行了
+    res.send(req.query);
+});
 
-// router.get('/images/2.jpeg', function(req, res){
-//     res.sendFile('images/2.jpeg', {root: __dirname});
-// })
+router.post('/adduser', function(req, res){
+    res.send(req.body);
+});
 
 
 
