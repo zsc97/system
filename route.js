@@ -1,120 +1,49 @@
 const express = require('express')
 const router = express.Router()
-const fs = require('fs');
-const mime = require('mime');
 
-const multer = require('multer')
-
-// let storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, 'uploads/')
-//     },
-//     filename: function (req, file, cb) {
-//       cb(null, file.fieldname + '-' + Date.now() + '.' + mime.getExtension(file.mimetype))
-//     }
-//   })
-
-// let upload = multer({
-//     storage: storage,
-//     limits:{
-//         fileSize: 50*1024
-//     },
-    // fileFilter: function(req, file, cb){
-    //     if(file.mimetype == 'image/jpeg'){
-    //         cb(null, true);
-    //     }else{
-    //         cb(null, false);
-    //     }
-    // }
-// });
-// let upload = multer({dest: 'uploads/'});
-
-router.get('/xxx', function (req, res) {
-    // res.sendFile('1.html', {root: __dirname});
-    res.send('');
-});
-
-router.get('/adduser', function (req, res) {
-    // 如果是GET请求，使用的事querystring方法传递参数，只需要用req.query获取就行了
-    res.send(req.query);
-});
-
-router.post('/adduser', function (req, res) {
-    res.send(req.body);
-});
-
-//  参数路由
-router.get('/yyy/:id/:name', function (req, res) {
-    res.send(req.params);
-});
-
-router.get('/555', function (req, res) {
-    // res.cookie('name', '二狗子', {httpOnly: true, maxAge: 500000});
-    // res.clearCookie('name');
-    // req.session.xxxx = '111111';
-    req.session.destroy(function () {
-        res.redirect('http://www.baidu.com');
-    });
-    // res.send('555');
-})
-
-router.get('/666', function (req, res) {
-    // res.send(req.headers.cookie);
-    // res.send(req.cookies);
-    let xx = req.session.xxxx;
-    res.send(xx);
-})
-
-
-
-// router.post('/uploadfile', upload.single('xx'), function(req, res, next){
-//     let tmpPath = __dirname + '/' + req.file.path;
-//     fs.rename(tmpPath, tmpPath + '.' + mime.getExtension(req.file.mimetype), function(){
-
-//     });
-// })
-
-
-// router.post('/uploadfile', upload.single('xx'), function(req, res, next){
-//     console.log(req.file);
-// })
-
-var upload = multer({
-    dest: 'uploads/',
-    limits: {
-        fileSize: 50 * 1024
-    },
-    fileFilter: function(req, file, cb){
-        if(file.mimetype == 'image/png'){
-            cb(null, true);
-        }else{
-            cb(new multer.MulterError(1, 2, 3, 4));
+// 管理员的登录
+router.post('/admin/login', function(req, res){
+    try{
+        if(req.session.captcha == undefined){
+            throw Error('2');
         }
+        if(req.session.captcha != req.body.yzm.toLowerCase()){
+            throw Error('1');
+        }
+    }catch(e){
+        let data = {};
+        switch(e.message){
+            case '1': data = {code:1, msg: '验证码有误'}; break;
+            case '2': data = {code:2, msg: '验证码已过期，请刷新后重试！'}; break;
+        }
+        res.send(data);
     }
-}).single('xx');
+});
 
-router.post('/uploadfile', function (req, res) {
-    upload(req, res, function (err) {
-        console.log(err);
-        if (err instanceof multer.MulterError) {
-            // 发生错误
-        } else if (err) {
-            // 发生错误
-        }
-
-        // 一切都好
-    })
+router.get('/yzm', function(req, res){
+    var svgCaptcha = require('svg-captcha');
+    var captcha = svgCaptcha.create({
+        noise: 5,
+        ignoreChars: '0o1i',
+    });
+    // 将验证码中的字符存放到session中
+    console.log(captcha);
+    req.session.captcha = captcha.text.toLowerCase();
+    res.type('svg');
+    res.send(captcha.data);
 })
 
-// router.post('/uploadfile', upload.array('xx'), function(req, res, next){
-//     console.log(req.files);
-// })
+router.get('/mobileisallow', function(req, res){
+    //验证手机号的格式
+    let mobileReg = /^1[357689]\d{9}$/
+    res.send(mobileReg.test(req.query.mobile));
+});
 
-// router.post('/uploadfile', upload.fields([{name:'xx'}, {name:'zz'}]), function(req, res, next){
-//     console.log(req.files);
-// })
-
-
+// 学生的登录
+router.get('/login', function(req, res){
+    // console.log(req.session);
+    // console.log(Math.random());
+});
 
 
 
