@@ -34,15 +34,15 @@ for (const i of data) {
 // app.use(route);
 
 // 注册静态资源中间件 管理静态资源
-app.use('/static', express.static('./static'));
-app.use('/html', express.static('./html'));
+app.use('/static', express.static('./public/static'));
+app.use('/html', express.static('./public/html'));
 
 // 参数1：给模板引擎起的名字（和模板文件的后缀名有关）
 app.engine('html', require('express-art-template'));
 // 配置使用的模板引擎
 app.set('view engine', 'html');
 // 配置模板文件的存放路径
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/application/views');
 
 app.listen('2000', '127.0.0.1', function(){
     console.log('服务已启动');

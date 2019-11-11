@@ -121,6 +121,32 @@
 
 // let config = require('./test/models/config');
 
-require('./models/admin');
+// require('./models/admin');
+
+let models = require('./application/models/models');
+
+// models.admin.findAll().then((data)=>{
+//     console.log(data);
+// })
+// models.student.findAll().then((data)=>{
+//     console.log(data);
+// })
+
+// let student = require('./application/models/student')
+// student.create({
+//     cls_id: 21,
+//     mobile: '13566779899',
+//     sex: 1,
+//     id_card: '41112234325366',
+//     dorm: 1
+// }).then((data)=>{
+//     console.log(data);
+// })
+
+// models.Admin.findOne();
+// models.User.findOne();
+
+
+
 
 
