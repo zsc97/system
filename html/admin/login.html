@@ -116,7 +116,11 @@
                 },
                 submitHandler:function(form){
                     $.post('/admin/login', $(form).serialize(), function(data){
-                        console.log(data);
+                        if(data.code){
+                            alert(data.msg);
+                        }else{
+                            location.href = '/html/test.html';
+                        }
                     });
 
                 
