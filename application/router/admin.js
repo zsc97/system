@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const admin = require('../controller/admin');
+const cl = require('../controller/admin/cl');
 
 // 管理员的登录
 router.post('/admin/login', admin.login);
@@ -9,6 +10,19 @@ router.get('/yzm', admin.yzm);
 // 验证手机号的格式
 router.get('/mobileisallow', admin.mobileIsAllow);
 
+router.get('/index', function(req, res){
+    res.render('admin/index');
+});
+
+router.get('/console', function(req, res){
+    res.render('admin/welcome');
+})
+
+router.get('/admin-add-class', function(req, res){
+    res.render('admin/add-class');
+})
+
+router.post('/admin-add-class', cl.add)
 
 
 module.exports = router;

@@ -13,7 +13,7 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false, limit:"10000kb"}));
 // 注册路由中间件
 // app.use(require('./application/router/admin'));
 // app.use(require('./application/router/student'));
