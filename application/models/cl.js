@@ -2,7 +2,7 @@ const {Sequelize, sequelize} = require('./initialize');
 
 const Model = Sequelize.Model;
 class cl extends Model {
-
+    
 }
 
 // 定义我们的模型
@@ -11,18 +11,30 @@ cl.init({
     name: {
         type: Sequelize.STRING(20),
         allowNull: false
+        // get(){
+        //     return this.getDataValue('name') + '666';
+        // }
     },
     start: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        get(){
+            return this.getDataValue('start').substr(0, 10);
+        }
     },
     end:{
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        get(){
+            return this.getDataValue('end').substr(0, 10);
+        }
     },
     finish:{
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        get(){
+            return this.getDataValue('finish').substr(0, 10);
+        }
     },
     master: {
         type: Sequelize.STRING(4),
@@ -45,6 +57,7 @@ cl.init({
     // 参数
     // 不自动维护createdAt和updatedAt
     timestamps: false
+    
 });
 
 if(module.id == '.'){

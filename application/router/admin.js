@@ -19,10 +19,13 @@ router.get('/console', function(req, res){
 })
 
 router.get('/admin-add-class', function(req, res){
-    res.render('admin/add-class');
+    res.render('admin/class-add');
 })
-
-router.post('/admin-add-class', cl.add)
+router.post('/admin-mod-class', cl.edit);
+router.get('/admin-mod-class', cl.mod);
+router.post('/admin-add-class', cl.add);
+router.get('/admin-class-list', cl.list);
+router.post('/admin-del-class', cl.del)
 
 
 module.exports = router;

@@ -1,0 +1,102 @@
+{{include '../common/header.html'}}
+
+<body>
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户中心 <span
+            class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r"
+            style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i
+                class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="page-container">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+                <tr class="text-c">
+
+                    <th width="30">ID</th>
+                    <th width="100">班级名称</th>
+                    <th>开班时间</th>
+                    <th>理论毕业时间</th>
+                    <th>真实毕业时间</th>
+                    <th width="60">班主任</th>
+                    <th width="130">班主任手机号</th>
+                    <th width="70">补充信息</th>
+                    <th width="100">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each list v}}
+                <tr class="text-c">
+                    <td>{{v.id}}</td>
+                    <td>{{v.name}}</td>
+                    <td>{{v.start}}</td>
+                    <td>{{v.end}}</td>
+                    <td>{{v.finish}}</td>
+                    <td>{{v.master}}</td>
+                    <td>{{v.mobile}}</td>
+                    <td>
+                        <span class="label label-success radius" data-toggle="tooltip" data-placement="left" title="{{v.remark}}">详情</span>
+                    </td>
+                    <td class="td-manage" data-id="{{v.id}}">
+                        <a title="编辑" href="javascript:;" class="ml-5 mod" style="text-decoration:none">
+                            <i class="Hui-iconfont">&#xe6df;</i>
+                        </a>
+                        <a title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none">
+                            <i class="Hui-iconfont">&#xe6e2;</i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+        <div class="mt-20" id="page"></div>
+    </div>
+    </div>
+    <!--_footer 作为公共模版分离出去-->
+    {{include '../common/script.html'}}
+    <script type="text/javascript" src="/static/lib/laypage/1.2/laypage.js"></script>
+    <script>
+        laypage({
+            // 绑定到那个对象上
+            cont: 'page'
+            // 总页数
+            , pages: "{{pageNum}}"
+            // 当前页
+            , curr: "{{page}}"
+            // 显示的内容
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            // 点击后的的动作
+            , jump: function (obj, first) {
+                if(!first){
+                location.href = '/admin-class-list?page=' + obj.curr;
+                }
+            }
+        });
+
+        $('.del').click(function(){
+            var id = $(this).parent().attr('data-id');
+            layer.confirm('您确定删除吗？', function(){
+                $.post('/admin-del-class', {id: id}, function(data){
+                    if(data.code){
+                        layer.alert(data.msg, {icon: 5})
+                    }else{
+                        layer.alert(data.msg, {icon: 6}, function(){
+                            location.reload();
+                        })
+                    }
+                })
+            }) 
+        })
+
+        $('.mod').click(function(){
+            var id = $(this).parent().attr('data-id');
+
+            layer.open({
+                type: 2,
+                title: '修改班级信息',
+                area: ['640px', '480px'],
+                content: '/admin-mod-class?id='+ id
+            });
+        })
+    </script>
+</body>
+
+</html>

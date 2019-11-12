@@ -1,0 +1,94 @@
+{{include '../common/header.html'}}
+
+<body>
+    <div class="page-container">
+        <form method="post" class="form form-horizontal" id="add">
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>班级名称：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" autocomplete="off" name="name">
+                    </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>班主任：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" autocomplete="off" name="master">
+                    </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>班主任手机号</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" autocomplete="off" name="mobile">
+                    </div>
+            </div>
+            
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>开班时间：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text"  autocomplete="off"
+                        onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })"
+                        id="datemin" class="input-text Wdate" style="width:180px;" name="start">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>毕业时间：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text"  autocomplete="off"
+                        onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'datemin\')}' })"
+                        id="datemax" class="input-text Wdate" style="width:180px;" name="end">
+                </div>
+            </div>
+            
+                
+
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">补充说明：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <textarea name="remark" class="textarea" placeholder="对于班级的补充说明信息"></textarea>
+                </div>
+            </div>
+            
+            <div class="row cl">
+                <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                    <button class="btn btn-primary radius" type="submit">
+                        <i class="Hui-iconfont">&#xe632;</i> 确认添加
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {{include '../common/script.html'}}
+    <script type="text/javascript" src="/static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+    <script>
+        $(function(){
+            $('#add').submit(function(e){
+
+                // $(this).serialize()
+
+                $.post('', $(this).serialize(), function(data){
+                    if(data.code){
+                        layer.alert(data.msg, {icon: 5})
+                    }else{
+                        layer.alert(data.msg, {icon: 6}, function(){
+                            location.reload();
+                        })
+                    }
+                });
+
+
+
+
+
+                // 阻止默认提交动作
+                // 隐式获取事件对象
+                // event.preventDefault();
+                // 显式获取事件对象
+                e.preventDefault();
+
+
+            });
+        });
+    </script>
+</body>
+
+</html>
